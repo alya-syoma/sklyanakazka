@@ -48,6 +48,7 @@
   /* top bar */
   .topbar{background:var(--sage);color:#F3FAF6;font-size:13px;text-align:center;padding:9px 16px;letter-spacing:.02em}
   .topbar b{color:#fff}
+  .topbar a{text-decoration:underline;text-underline-offset:3px}
 
   /* header */
   header{position:sticky;top:0;z-index:50;background:rgba(255,249,243,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
@@ -185,8 +186,21 @@
   .drawer-foot .btn{width:100%;justify-content:center}
   .checkout-note{font-size:12.5px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.5}
   .checkout-note b{color:var(--plum)}
-  .order-text{width:100%;min-height:96px;margin-top:12px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--plum);font:inherit;font-size:13px;resize:vertical}
+  .unused-order-text{width:100%;min-height:96px;margin-top:12px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--plum);font:inherit;font-size:13px;resize:vertical}
 
+  .demo-pill{position:fixed;left:max(20px,env(safe-area-inset-left,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:65;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);color:var(--plum);padding:10px 16px;border-radius:999px;font-size:13px;box-shadow:var(--shadow);border:1px solid var(--blush);animation:float 4s ease-in-out infinite}
+  .demo-pill b{color:var(--rose-deep)}
+  .demo-pill .spark{color:var(--rose)}
+  .demo-sticker{position:absolute;top:-14px;right:-18px;background:var(--butter);color:var(--plum);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;transform:rotate(8deg);box-shadow:var(--shadow-sm)}
+  .modal{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(61,46,62,.4);backdrop-filter:blur(4px)}
+  .modal[hidden]{display:none}
+  .modal-card{position:relative;max-width:420px;width:100%;background:var(--cream);border-radius:30px;padding:40px 28px 30px;text-align:center;box-shadow:0 30px 80px rgba(61,46,62,.3);animation:pop .4s cubic-bezier(.3,1.4,.5,1)}
+  .modal-card h3{font-size:34px;margin-bottom:14px}
+  .modal-card p{color:var(--muted);font-size:15px;margin-bottom:24px}
+  .modal-card p b{color:var(--rose-deep)}
+  .modal-ball{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:var(--blush);display:grid;place-items:center;font-size:30px}
+  .modal-x{position:absolute;top:14px;right:14px}
+  @keyframes pop{from{transform:scale(.9);opacity:0}}
   .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,120px);background:var(--plum);color:#fff;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:600;z-index:80;transition:transform .4s cubic-bezier(.3,1.4,.5,1);box-shadow:var(--shadow)}
   .toast.show{transform:translate(-50%,0)}
 
@@ -224,6 +238,9 @@
     .hero-stats span{font-size:11px}
     .perks{grid-template-columns:1fr}
     .news-box{padding:48px 20px}
+    .toast{bottom:78px;max-width:calc(100% - 32px);text-align:center}
+    .demo-pill{font-size:12px;padding:8px 14px}
+    .demo-sticker{right:-6px}
     .news-form{flex-direction:column;border-radius:24px}
     .news-form input{padding:12px 16px}
     .news-form .btn{justify-content:center}
@@ -241,7 +258,7 @@
 <body>
 <canvas id="snow" aria-hidden="true"></canvas>
 
-<div class="topbar">❄ Безкоштовна доставка від <b>1500 грн</b> · Подарункове пакування до кожного замовлення ❄</div>
+<div class="topbar">✨ Демо-вітрина від <a href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener"><b>@nest.a.s</b></a> · товари, ціни та відгуки вигадані ✨</div>
 
 <header>
   <div class="container nav">
@@ -280,6 +297,7 @@
           </div>
         </div>
         <div class="hero-stats">
+          <span class="demo-sticker">приклад</span>
           <div><b>240+</b><span>видів прикрас</span></div>
           <div><b>12 р.</b><span>досвіду майстрів</span></div>
           <div><b>4.9★</b><span>оцінка покупців</span></div>
@@ -375,12 +393,21 @@
   <div class="items" id="items"></div>
   <div class="drawer-foot">
     <div class="total"><span>Разом</span><span id="total">0 грн</span></div>
-    <a class="btn btn-primary" id="checkout" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">Оформити замовлення в Threads</a>
-    <textarea id="orderText" class="order-text" readonly hidden aria-label="Текст замовлення"></textarea>
-    <p class="checkout-note">Відкриється профіль <b>@nest.a.s</b> у Threads. Ми скопіюємо замовлення, тож вам залишиться натиснути «Повідомлення» і вставити текст.</p>
+    <button class="btn btn-primary" id="checkout" type="button">Оформити замовлення</button>
+    <p class="checkout-note">Це демо-вітрина: справжні замовлення тут не оформлюються.</p>
   </div>
 </aside>
 <div class="toast" id="toast"></div>
+<a class="demo-pill" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener"><span class="spark">✦</span> Демо-вітрина від <b>@nest.a.s</b></a>
+<div class="modal" id="demoModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="demoTitle">
+    <button class="close modal-x" id="demoClose" type="button" aria-label="Закрити">×</button>
+    <div class="modal-ball" aria-hidden="true">🎄</div>
+    <h3 id="demoTitle">Хочете таку вітрину?<br>Напишіть мені</h3>
+    <p>Це демо-сайт, який зробила <b>@nest.a.s</b>. Замовлення й підписка тут не працюють. Якщо вам потрібен такий сайт для вашого магазину, напишіть мені в Threads.</p>
+    <a class="btn btn-primary" href="https://www.threads.com/@nest.a.s" target="_blank" rel="noopener">Написати в Threads</a>
+  </div>
+</div>
 
 <script>
 const products=[
@@ -456,24 +483,14 @@ const openCart=()=>document.body.classList.add('cart-open'),closeCart=()=>docume
 document.getElementById('cartBtn').onclick=openCart;
 document.getElementById('closeCart').onclick=closeCart;
 document.getElementById('overlay').onclick=closeCart;
-const orderText=document.getElementById('orderText');
-function buildOrder(){
-  const ids=Object.keys(cart).filter(k=>cart[k]>0);
-  if(!ids.length) return '';
-  const lines=ids.map(k=>{const p=products.find(x=>x.id==k);return `• ${p.name} × ${cart[k]} = ${fmt(p.price*cart[k])}`;});
-  const sum=ids.reduce((s,k)=>s+cart[k]*products.find(x=>x.id==k).price,0);
-  return `Вітаю! Хочу замовити прикраси зі «Скляної Казки»:\n${lines.join('\n')}\nРазом: ${fmt(sum)}`;
-}
-document.getElementById('checkout').addEventListener('click',e=>{
-  const text=buildOrder();
-  if(!text){e.preventDefault();toast('🎄 Спершу додайте прикраси до кошика');return;}
-  orderText.value=text;
-  const fallback=()=>{orderText.hidden=false;orderText.focus();orderText.select();toast('Скопіюйте текст замовлення з поля в кошику',4000);};
-  try{
-    navigator.clipboard.writeText(text).then(()=>{orderText.hidden=true;toast('✨ Замовлення скопійовано. Вставте його в повідомлення в Threads',4000);},fallback);
-  }catch(err){fallback();}
-});
-document.getElementById('newsForm').onsubmit=e=>{e.preventDefault();e.target.reset();toast('💌 Промокод WINTER15 надіслано (демо)');};
+const demoModal=document.getElementById('demoModal');
+const openDemo=()=>{closeCart();demoModal.hidden=false;};
+const closeDemo=()=>{demoModal.hidden=true;};
+document.getElementById('demoClose').onclick=closeDemo;
+demoModal.addEventListener('click',e=>{if(e.target===demoModal) closeDemo();});
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeDemo();closeCart();}});
+document.getElementById('checkout').onclick=openDemo;
+document.getElementById('newsForm').onsubmit=e=>{e.preventDefault();e.target.reset();openDemo();};
 render();
 
 // reveal on scroll
